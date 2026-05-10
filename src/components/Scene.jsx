@@ -9,45 +9,72 @@ import Atmosphere from './Atmosphere'
 import Terrain from './Terrain'
 import { OrbitControls } from '@react-three/drei'
 import { Environment } from '@react-three/drei'
-import { Color } from 'three'
+import { Color, MathUtils } from 'three'
 import MountainFog from './MountainFog'
+import Jungle from './Jungle'
+
+
 
 gsap.registerPlugin(ScrollTrigger);
 
-function CameraRig({ targetZ }) {
-  const { camera, gl, scene } = useThree()
-
-  useFrame(() => {
-    camera.position.z += (targetZ.current - camera.position.z) * 0.05
-
-       if (camera.position.z < -1) {
-      scene.background = new Color('#b0bec5')
-    } else {
-      scene.background = null
-    }
-  })
-
-  return null
-}
 
 
-export default function Scene({ scrollContainerRef }) {
-  const targetZ = useRef(6)
+const cameraProxy = { z: 6, y: 0 }
+  
 
-  useEffect(() => {
-    const trigger = ScrollTrigger.create({
-      trigger: scrollContainerRef.current,
-      start: 'top top',
-      end: 'bottom bottom',
-      scrub: true,
-      onUpdate: (self) => {
-        targetZ.current = gsap.utils.mapRange(0, 1, 6, -12, self.progress)
-        targetZ.current = Math.max(-2, targetZ.current)
+  function CameraRig() {
+    const {camera, scene} = useThree()
+
+    useFrame(()=> {
+      camera.position.z = cameraProxy.z
+      camera.position.y = cameraProxy.y
+
+      if (camera.position.z < -1) {
+        scene.background = new Color('#aab8ce')
+      } else {
+        scene.background = null
+      } if (camera.position.y < -2) {
+        scene.background = new Color('#727c88')
+      } if (camera.position.y < -4) {
+        scene.background = new Color('#022b6d')
       }
     })
+    return null
+  }
 
-    return () => trigger.kill()
-  }, [])
+export default function Scene({ scrollContainerRef }) {
+  
+
+useEffect(()=>{
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: scrollContainerRef.current, 
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: 1,
+      // snap: {
+      //   snapTO: 'labels',
+      //   duration: 0.5,
+      //   ease: 'power2.inOut'
+      // }
+    }
+  })
+  tl.addLabel('exosphere')
+    .to(cameraProxy, {z: 2, y: 0, duration: 1})
+    .addLabel('atmosphere')
+    .to(cameraProxy, {z: -2, y: 0, duration: 1})
+    .addLabel('mountain')
+    .to(cameraProxy, {z: -2, y: -4, duration: 1})
+    .addLabel('jungle')
+    .to(cameraProxy, {z: -2, y: -10, duration: 1})
+    .addLabel('underwater')
+    .to(cameraProxy, { z: -10, y: -10, duration: 1 })
+    .addLabel('core')
+    return()=>{
+      tl.kill()
+      ScrollTrigger.getAll().forEach(t => t.kill())
+    }
+}, [])
 
   return (
     <div  ref={scrollContainerRef}>
@@ -56,7 +83,7 @@ export default function Scene({ scrollContainerRef }) {
     camera={{ position: [0, 0, 9], fov: 65 }} 
     gl={{ powerPreference: 'high-performance', antialias: true, useLegacyLights: false }}
   >
-        <CameraRig targetZ={targetZ} />
+        <CameraRig  />
         <ambientLight intensity={0.5} />
         <directionalLight position={[5, 5, 5]} intensity={1} />
 
@@ -67,10 +94,13 @@ export default function Scene({ scrollContainerRef }) {
         <Environment files="/puresky.hdr" environmentIntensity={0.1} />
         <Terrain/>
         <MountainFog/>
+        <Jungle/>
         {/* <OrbitControls/> */}
         {/* <fog attach="fog" args={['#b0bec5', 5, 20]} /> */}
       </Canvas>
       
     </div>
+
+    
   )
 }

@@ -6,9 +6,13 @@ export default function App() {
   const scrollContainerRef = useRef()
 
   return (
-    <div className="h-[500vh]" ref={scrollContainerRef}>
-      <Scene scrollContainerRef={scrollContainerRef} />
-      <UI scrollContainerRef={scrollContainerRef} />
-    </div>
+    <>
+      <div className="h-[1100vh]" ref={scrollContainerRef}>
+        <Scene scrollContainerRef={scrollContainerRef} />
+        <UI scrollContainerRef={scrollContainerRef} />
+      </div>
+      
+      
+    </>
   )
 }

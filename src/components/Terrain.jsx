@@ -20,11 +20,18 @@ useEffect(() => {
     })
   }, [scene, texture])
 
- useFrame(({ camera }) => {
-    if (!ref.current) return
-    const z = camera.position.z
-    ref.current.visible = z < -1 && z > -8
-  })
+//  useFrame(({ camera }) => {
+//     if (!ref.current) return
+//     const z = camera.position.z
+//     ref.current.visible = z < -1 && z > -8
+//   })
+
+useFrame(({ camera }) => {
+  if (!ref.current) return
+  const z = camera.position.z
+  const y = camera.position.y
+  ref.current.visible = z < -1 && z > -8 && y > -0.3
+})
 
   return (
     <primitive 
