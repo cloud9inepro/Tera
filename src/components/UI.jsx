@@ -17,12 +17,13 @@ useEffect(() => {
     // 1. The Title - Finished by 40%
     gsap.to(titleRef.current, {
       opacity: 0,
-      scale: 8,
+      scale: 5,
+      x: -500,
       ease: 'power1.in',
       scrollTrigger: {
         trigger: scrollContainerRef.current,
         start: 'top top',
-        end: '40% top', // <--- This is the magic line
+        end: '20% top', // <--- This is the magic line
         scrub: 1,
         onLeave: () => gsap.set(titleRef.current, { visibility: 'hidden' }),
         onEnterBack: () => gsap.set(titleRef.current, { visibility: 'visible' }),
@@ -49,26 +50,26 @@ useEffect(() => {
 useEffect(() => {
   if (!scrollContainerRef.current) return
 
-  ScrollTrigger.create({
-    trigger: scrollContainerRef.current,
-    start: 'bottom bottom',
-    onEnter: () => {
-      console.log(cloudOverlayRef.current)
-      gsap.timeline()
-        .to(cloudOverlayRef.current, {
-          opacity: 1,
-          x: '0%',
-          duration: 1.2,
-          ease: 'power2.inOut'
-        })
-        .to(cloudOverlayRef.current, {
-          x: '100%',
-          duration: 1.2,
-          ease: 'power2.inOut',
-          delay: 0.3
-        })
-    }
-  })
+  // ScrollTrigger.create({
+  //   trigger: scrollContainerRef.current,
+  //   start: 'bottom bottom',
+  //   onEnter: () => {
+  //     console.log(cloudOverlayRef.current)
+  //     gsap.timeline()
+  //       .to(cloudOverlayRef.current, {
+  //         opacity: 1,
+  //         x: '0%',
+  //         duration: 1.2,
+  //         ease: 'power2.inOut'
+  //       })
+  //       .to(cloudOverlayRef.current, {
+  //         x: '100%',
+  //         duration: 1.2,
+  //         ease: 'power2.inOut',
+  //         delay: 0.3
+  //       })
+  //   }
+  // })
 }, [scrollContainerRef])
 
   return (
@@ -80,7 +81,7 @@ useEffect(() => {
         <p className="text-sm italic opacity-70">Scroll to Explore</p>
       </div>
 
-      <div 
+      {/* <div 
   ref={cloudOverlayRef}
   className="fixed inset-0 z-50 pointer-events-none"
   style={{
@@ -91,7 +92,7 @@ useEffect(() => {
     background: 'white',
     opacity: 0
   }}
-/>
+/> */}
     </div>
 
     

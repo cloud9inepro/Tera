@@ -4,12 +4,20 @@ import { useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { useEffect } from 'react'
 import * as THREE from 'three'
-
-
+// import { useThree } from '@react-three/fiber'
+import { Html } from '@react-three/drei'
 
 export default function Jungle() {
-const { scene } = useGLTF('/tropical.glb')
+const { scene: scene1 } = useGLTF('/tropical.glb')
 const { scene: scene2 } = useGLTF('/tropicalPlant.glb')
+// const floorTexture = useTexture('/textures/forrest_ground.jpg')
+const props = useTexture({
+  map: '/textures/forrest_ground.jpg',
+  normalMap: '/textures/forrest_ground_01_nor.jpg',
+  roughnessMap: '/textures/forrest_ground_01_rough.jpg',
+  aoMap: '/textures/forrest_ground_01_ao.jpg',
+  displacementMap: '/textures/forrest_ground_01_disp.jpg'
+})
 
 
 const trees = useMemo(() => {
@@ -25,10 +33,10 @@ const trees = useMemo(() => {
   ]
   
   return positions.map(p => ({
-    scene: SkeletonUtils.clone(scene),
+    scene: SkeletonUtils.clone(scene1),
     ...p
   }))
-}, [scene])
+}, [scene1])
 
 
 const plants = useMemo(() => {
@@ -52,29 +60,27 @@ const plants = useMemo(() => {
 
 
 const groupRef = useRef()
+const htmlRef = useRef()
 
 useFrame(({ camera }) => {
   if (!groupRef.current) return
-  groupRef.current.visible = camera.position.y < -1
+  groupRef.current.visible = camera.position.y < -1 && camera.position.y > -5
+
+  const isVisible = camera.position.y < -1 && camera.position.y > -5
+  groupRef.current.visible = isVisible
+  if (htmlRef.current){
+    htmlRef.current.style.display = isVisible ? 'block' : 'none'
+  }
 })
 
-// useEffect(() => {
-//   trees.forEach(tree => {
-//     tree.scene.traverse((child) => {
-//       if (child.isMesh) {
-//         if (child.material) {
-//           child.material.envMapIntensity = 1
-//           if (child.material.map) {
-//             child.material.alphaTest = 0.5
-//             child.material.transparent = true
-//             child.material.side = THREE.DoubleSide
-//             child.material.needsUpdate = true
-//           }
-//         }
-//       }
-//     })
-//   })
-// }, [trees])
+
+useEffect(()=>{
+  Object.values(props).forEach((tex) => {
+    tex.wrapS = tex.wrapT = THREE.RepeatWrapping
+    tex.repeat.set(1, 1)
+  })
+}, [props])
+
 
 
 return (
@@ -100,13 +106,27 @@ return (
   />
 ))}
 
-<mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -5, -10]}>
-  <planeGeometry args={[40, 20]}/>
-  <meshStandardMaterial color="#2d5a1b" side={THREE.DoubleSide}/>
+
+
+<mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -5.1, -10]}>
+  <planeGeometry args={[40, 20, 64, 64]}/>
+  <meshStandardMaterial  side={THREE.DoubleSide} {...props} displacementScale={0.2}/>
+  
 </mesh>
-    
+
+
+{/* <Html ref={htmlRef} transform center position={[0, 0, -10]}  distanceFactor={5}>
+    <div className='text-white text-5xl font-extrabold md:flex md:w-screen '>
+      Explore the Beauty <br/> of Planet Tera
+    </div>
+
+    <div className='text-white '>
+      From lush forests to hidden islands, <br/> experience the world like never before.
+    </div>
+</Html> */}
   </group>
 
-  
 )
 }
+
+// color="#2d5a1b"

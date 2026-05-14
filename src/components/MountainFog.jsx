@@ -10,7 +10,7 @@ export default function MountainFog() {
     return Array.from({ length: 20 }, () => ({
       position: [
         (Math.random() - 0.5) * 20,
-        -1 + (Math.random() - 0.5) * 2,
+        -1 + (Math.random() - 0.5) * 0.3,
         -3 + (Math.random() - 0.5) * 4
       ],
       speed: 0.001 + Math.random() * 0.004,
