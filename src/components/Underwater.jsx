@@ -29,7 +29,8 @@ export default function Underwater() {
   const alienRef = useRef()
   const koiRef = useRef()
   const schoolRef = useRef()
-  const materialRef = useRef()
+const materialRef = useRef()
+const topMaterialRef = useRef()
 
  const direction = useRef(1)
 const posX = useRef(0)
@@ -88,25 +89,43 @@ useFrame((state) => {
   }
 })
 
-
+useFrame((state) => {
+  if (materialRef.current) {
+    materialRef.current.uTime = state.clock.getElapsedTime()
+  }
+  if (topMaterialRef.current) {
+    topMaterialRef.current.uTime = state.clock.getElapsedTime()
+  }
+})
 
   return (
     <group ref={groupRef}>
 
 
-       //ocean top shader
+       //ocean top 
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -6.6, 0]}>
-        <planeGeometry args={[64, 64, 32, 32]}/>
-        <waterMaterial ref={materialRef} transparent side={THREE.DoubleSide}/>
+        <planeGeometry args={[0, 0, 32, 32]} color="#005b96"/>
+        {/* <waterMaterial ref={materialRef} transparent side={THREE.DoubleSide}/> */}
       </mesh>
+
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -6.6, 0]}>
+  <planeGeometry args={[64, 64, 32, 32]}/>
+  <waterMaterial ref={topMaterialRef} transparent side={THREE.DoubleSide}/>
+</mesh>
     
 
              //ocean floor
-    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -14, 0]}>
-      <planeGeometry args={[64, 64, 128, 128]}/>
-      <meshStandardMaterial  side={THREE.DoubleSide} {...props} displacementScale={0.2} aoMapIntensity={1}/> 
-      {/* <waterMaterial ref={materialRef} uTexture={props.map} transparent/> */}
-    </mesh>
+    {/* Sand floor */}
+<mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -14, 0]}>
+  <planeGeometry args={[100, 100, 128, 128]}/>
+  <meshStandardMaterial side={THREE.DoubleSide} {...props} displacementScale={0}/> 
+</mesh>
+
+{/* Caustic overlay - sits just above the floor */}
+<mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -13.98, 0]}>
+  <planeGeometry args={[64, 64, 1, 1]}/>
+  <waterMaterial ref={materialRef} transparent depthWrite={false} />
+</mesh>
 
    //rock
     <primitive

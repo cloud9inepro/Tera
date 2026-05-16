@@ -16,17 +16,17 @@ export default function Effects() {
   if (y < -6) {
     // underwater - check this FIRST
     bloomRef.current.intensity = 1.5
-    if (noiseRef.current) noiseRef.current.opacity = 0.02
-  } else if (z < -1) {
-    bloomRef.current.intensity = 0
-    if (noiseRef.current) noiseRef.current.opacity = 0
-  } else {
-    bloomRef.current.intensity = MathUtils.clamp(
-      MathUtils.mapLinear(z, 6, 2, 0.2, 3),
-      0, 3
-    )
-    if (noiseRef.current) noiseRef.current.opacity = 0
-  }
+    if (noiseRef.current) noiseRef.current.opacity = 1
+   }// else if (z < -1) {
+  //   bloomRef.current.intensity = 0
+  //   if (noiseRef.current) noiseRef.current.opacity = 0
+  // } else {
+  //   bloomRef.current.intensity = MathUtils.clamp(
+  //     MathUtils.mapLinear(z, 6, 2, 0.2, 3),
+  //     0, 3
+  //   )
+  //   if (noiseRef.current) noiseRef.current.opacity = 0
+  // }
 })
 
   return (

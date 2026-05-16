@@ -51,12 +51,14 @@ void main() {
 
   float v = 0.;
   float sizeDistortion = abs(uv.x) / 3.;
-  v += voronoi(uv, t * 2., 0.5, 2.5 - sizeDistortion);
-  v += voronoi(uv, t * 4., 0., 4. - sizeDistortion) / 2.;
+  v += voronoi(uv, t * 2., 0.5, 6.0 - sizeDistortion);
+  v += voronoi(uv, t * 4., 0., 8.0 - sizeDistortion) / 2.;
 
   vec3 col = v * vec3(.55, .75, 1.);
   col += (1. - v) * vec3(.0, .3, .5);
 
-  gl_FragColor = vec4(col, 0.85);
+  float alpha = v * 0.3;
+
+  gl_FragColor = vec4(col, alpha);
 }
 
