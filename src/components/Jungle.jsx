@@ -4,13 +4,15 @@ import { useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { useEffect } from 'react'
 import * as THREE from 'three'
-// import { useThree } from '@react-three/fiber'
+import { useThree } from '@react-three/fiber'
 import { Html } from '@react-three/drei'
+// import { FaLeaf } from "react-icons/fa"
+
+
 
 export default function Jungle() {
 const { scene: scene1 } = useGLTF('/tropical.glb')
 const { scene: scene2 } = useGLTF('/tropicalPlant.glb')
-// const floorTexture = useTexture('/textures/forrest_ground.jpg')
 const props = useTexture({
   map: '/textures/forrest_ground.jpg',
   normalMap: '/textures/forrest_ground_01_nor.jpg',
@@ -115,15 +117,51 @@ return (
 </mesh>
 
 
-{/* <Html ref={htmlRef} transform center position={[0, 0, -10]}  distanceFactor={5}>
-    <div className='text-white text-5xl font-extrabold md:flex md:w-screen '>
-      Explore the Beauty <br/> of Planet Tera
+<Html ref={htmlRef} transform center={false} position={[0, -1, -10]}  distanceFactor={5}>
+  <div className='w-screen h-screen jusify-center  md:justify-center  lg:pl-44 lg:mt-60 pt-60  lg:flex flex-col lg:text-left text-center gap-3  pointer-events-none '>
+    <div>
+      <div className='text-white text-5xl font-extrabold '>
+      Explore the <span className='text-[#2d5a1b]'>Beauty</span> <br/> of Planet Tera
     </div>
 
-    <div className='text-white '>
+    <div className='text-white p-3 '>
       From lush forests to hidden islands, <br/> experience the world like never before.
     </div>
-</Html> */}
+
+    <div className='p-3 bg-[#2d5a1b] rounded-lg inline-block text-white lg:w-fit'>
+      Explore Destinations
+    </div>
+    </div>
+      
+
+    {/* bottom texts */}
+    <div className=' hidden lg:flex justify-start  items-end gap-10'>
+
+    <div className='text-white'>
+      <h1>BREATHTAKING NATURE</h1> 
+      <p>Discover stunning landscapes <br />
+      and vibrant ecosystems.</p>
+    </div>
+
+    <div className='text-white'>
+      <h1>BREATHTAKING NATURE</h1> 
+      <p>Discover stunning landscapes <br />
+      and vibrant ecosystems.</p>
+    </div>
+
+    <div className='text-white'>
+      <h1>BREATHTAKING NATURE</h1> 
+      <p>Discover stunning landscapes <br />
+      and vibrant ecosystems.</p>
+    </div>
+
+
+    </div>
+    
+
+  </div>   
+</Html>
+
   </group>
 
 )

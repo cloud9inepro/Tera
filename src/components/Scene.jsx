@@ -38,9 +38,9 @@ const cameraProxy = { z: 6, y: 0 }
         scene.background = null
       } if (camera.position.y < -2) {
         scene.background = new Color('#727c88')
-      } if (camera.position.y < -4.5) {
-        scene.background = new Color('#0d2137')
-      } 
+       } if (camera.position.y < -4.5) {
+         scene.background = new Color('#0d2137')
+       } 
     })
     return null
   }
@@ -71,15 +71,15 @@ useEffect(()=>{
     .addLabel('mountain')
     .to(cameraProxy, {z: -2, y: -4, duration: 1})
     .addLabel('jungle')
-    .to(cameraProxy, {z: -2, y: -8, duration: 1})
+    .to(cameraProxy, {z: -3, y: -8, duration: 1})
     .addLabel('underwater_enter')
-    .to(cameraProxy, { z: -8, y: -8, duration: 1 })
+    .to(cameraProxy, { z: -8, y: -11, duration: 1 })
     .addLabel('underwater_fish1')
     .to(cameraProxy, { z: -15, y: -8, duration: 1 })
     .addLabel('underwater_fish2')
-    .to(cameraProxy, { z: -20, y: -8, duration: 1 })
+    .to(cameraProxy, { z: -20, y: -11, duration: 1 })
     .addLabel('underwater_fish3')
-    .to(cameraProxy, { z: -25, y: -8, duration: 1 })
+    .to(cameraProxy, { z: -25, y: -7, duration: 1 })
     return()=>{
       tl.kill()
       ScrollTrigger.getAll().forEach(t => t.kill())
@@ -92,7 +92,7 @@ useEffect(()=>{
     dpr={[1, 2]}
     style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh' }}
     camera={{ position: [0, 0, 9], fov: 65 }} 
-    gl={{ powerPreference: 'high-performance', antialias: true, useLegacyLights: false }}
+    gl={{ powerPreference: 'high-performance', antialias: true, useLegacyLights: false, alpha: true }}
   >
         <CameraRig  />
         <ambientLight intensity={0.5} />

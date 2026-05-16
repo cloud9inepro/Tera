@@ -3,6 +3,10 @@
 @tailwind components;
 @tailwind utilities;
 
+@theme{
+  --color-forest-green: #2d5a1b;
+}
+
 html, body, #root {
   width: 100%;
   max-width: 100vw;

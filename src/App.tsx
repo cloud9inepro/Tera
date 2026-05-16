@@ -7,7 +7,7 @@ export default function App() {
 
   return (
     <>
-      <div style={{ height: '1100vh' }} ref={scrollContainerRef}>
+      <div style={{ height: '2000vh' }} ref={scrollContainerRef}>
         <Scene scrollContainerRef={scrollContainerRef} />
         <UI scrollContainerRef={scrollContainerRef} />
       </div>
