@@ -4,7 +4,7 @@ import { useFrame, extend } from '@react-three/fiber'
 import { useGLTF, useAnimations, useTexture } from '@react-three/drei'
 import { Sparkles } from '@react-three/drei'
 import { Selection, Select, EffectComposer,Bloom,Noise,} from "@react-three/postprocessing"
-import { Html } from '@react-three/drei'
+import { Text } from '@react-three/drei'
 import { shaderMaterial } from '@react-three/drei'
 import vertexShader from '../shaders/water.vert'
 import fragmentShader from '../shaders/water.frag'
@@ -25,7 +25,7 @@ extend({WaterMaterial})
 
 export default function Underwater() {
   const groupRef = useRef()
-  // const htmlRef = useRef()
+  const htmlRef = useRef()
   const alienRef = useRef()
   const koiRef = useRef()
   const schoolRef = useRef()
@@ -74,10 +74,20 @@ const props = useTexture({
   // if (htmlRef.current){
   //   htmlRef.current.style.display = isVisible ? 'block' : 'none'
   // }
-
-  
-      
+    
   })
+
+  const [isUnderwater, setIsUnderwater] = useState(false)
+
+useFrame(({ camera }) => {
+  if (!groupRef.current) return
+  const z = camera.position.z
+  const y = camera.position.y
+  groupRef.current.visible = z < -1.7
+
+  const underwater = y < -6
+  if (underwater !== isUnderwater) setIsUnderwater(underwater)
+})
 
 useFrame((state) => {
   if (!groupRef.current) return
@@ -98,6 +108,7 @@ useFrame((state) => {
   }
 })
 
+const fontSize = viewport.width < 5 ? 0.23 : viewport.width < 8 ? 0.28 : 0.40
   return (
     <group ref={groupRef}>
 
@@ -108,9 +119,9 @@ useFrame((state) => {
         {/* <waterMaterial ref={materialRef} transparent side={THREE.DoubleSide}/> */}
       </mesh>
 
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -6.6, 0]}>
-  <planeGeometry args={[64, 64, 32, 32]}/>
-  <waterMaterial ref={topMaterialRef} transparent side={THREE.DoubleSide}/>
+      <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, -6.6, 0]}>
+  <planeGeometry args={[100, 100, 32, 32]}/>
+  <waterMaterial ref={topMaterialRef} transparent />
 </mesh>
     
 
@@ -126,6 +137,7 @@ useFrame((state) => {
   <planeGeometry args={[64, 64, 1, 1]}/>
   <waterMaterial ref={materialRef} transparent depthWrite={false} />
 </mesh>
+
 
    //rock
     <primitive
@@ -162,21 +174,68 @@ useFrame((state) => {
       <Sparkles 
   count={300}
   scale={[20, 10, 20]}
-  position={[0, -12, -16]}
+  position={[0, -13, -16]}
   size={2}
   speed={0.3}
   color="#88ccff"
 />
    
           // ocean text
-      {/* <Html ref={htmlRef}  position={[0, -12, -20]} transform>
-          <div className='text-blue-500'>
-            hello
-          </div>
-      </Html> */}
+  <Text
+         ref={htmlRef}
+  position={[0, -10.8, -13]}
+  fontSize={fontSize}
+  color="#d9faff"
+  anchorX="center"
+  anchorY="middle"
+  maxWidth={5}
+  textAlign='center'
+  // outlineWidth={0.02}
+  // outlineColor="black"
+>
+  Tera's Ocean Unmapped, Uncharted
+  {/* <waterMaterial/> */}
+</Text>
 
-         
+
+
+      <Text ref={htmlRef} 
+       position={[0, -12, -24]} 
+       color="#d9faff"
+       anchorX="center"
+       anchorY="middle"
+       textAlign='center'
+       >
+          
+        Depth 3000ft
+          
+      </Text>
+
+
+<Text
+position={[5, -12, -47]}
+rotation={[0, -Math.PI / 4, 0]} 
+fontSize={0.8}
+color="#d9faff"
+anchorX="center"
+anchorY="middle"
+maxWidth={5}
+textAlign='center'
+>
+  The Abyss No LIght, No Return
+</Text>
+
+       
+
+{isUnderwater && (
+      <EffectComposer>
+        <Bloom luminanceThreshold={0.01} luminanceSmoothing={0.9} intensity={1.5} />
+        <Noise opacity={0.03} premultiplied />
+      </EffectComposer>
+    )}
     
+
+    <fogExp2 attach="fog" color="#0a1628" density={0.12} />
     </group>
     
   )

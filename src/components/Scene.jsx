@@ -40,7 +40,16 @@ const cameraProxy = { z: 6, y: 0 }
         scene.background = new Color('#727c88')
        } if (camera.position.y < -4.5) {
          scene.background = new Color('#0d2137')
-       } 
+       } if (camera.position.y < -6) {
+  scene.background = new Color('#0a1628')
+  scene.fog = new THREE.FogExp2('#0a1628', 0.08)
+} else if (camera.position.z < -1) {
+  scene.background = new Color('#2c3e50')
+  scene.fog = null
+} else {
+  scene.background = null
+  scene.fog = null
+}
     })
     return null
   }
