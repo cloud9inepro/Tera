@@ -63,3 +63,5 @@ useFrame(({ camera }) => {
     
   )
 }
+
+useGLTF.preload('/mountain/scene.gltf')

@@ -24,13 +24,6 @@ const props = useTexture({
 
 const trees = useMemo(() => {
   const positions = [
-    // { position: [-8, -5, -10], rotation: [0, 0, 0], scale: 1 },
-    // { position: [-4, -5, -12], rotation: [0, 1, 0], scale: 1.2 },
-    // { position: [0, -5, -14], rotation: [0, 2, 0], scale: 0.9 },
-    // { position: [4, -5, -12], rotation: [0, 0.5, 0], scale: 1.1 },
-    // { position: [8, -5, -10], rotation: [0, 1.5, 0], scale: 1 },
-    // { position: [-6, -5, -8], rotation: [0, 3, 0], scale: 0.8 },
-    // { position: [6, -5, -8], rotation: [0, 2.5, 0], scale: 1.3 },
     { position: [0, -5, -9], rotation: [0, 1, 0], scale: 0.9 },
   ]
   
@@ -120,7 +113,7 @@ return (
 <Html ref={htmlRef} transform center={false} position={[0, -1, -10]}  distanceFactor={5}>
   <div className='w-screen h-screen jusify-center  md:justify-center  lg:pl-44 lg:mt-60 pt-60  lg:flex flex-col lg:text-left text-center gap-3  pointer-events-none '>
     <div>
-      <div className='text-white text-5xl font-extrabold '>
+      <div className='text-white md:text-5xl 4xl font-extrabold '>
       Explore the <span className='text-[#2d5a1b]'>Beauty</span> <br/> of Planet Tera
     </div>
 
@@ -166,5 +159,6 @@ return (
 
 )
 }
-
+useGLTF.preload('/tropical.glb')
+useGLTF.preload('/tropicalPlant.glb')
 // color="#2d5a1b"

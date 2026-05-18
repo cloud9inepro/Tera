@@ -47,3 +47,4 @@ export default function Planet() {
 })
   return <primitive object={scene} scale={0.0032} position={[-3.5, -1, -2]} ref={meshRef} />;
 }
+useGLTF.preload("/earth1k.glb")
