@@ -254,21 +254,21 @@ useFrame((state) => {
       <group ref={koiRef} position={[0, -12, -30]}>
         <primitive object={koiScene} scale={1} />
       </group>
-      {/* <group ref={schoolRef}>
+      <group ref={schoolRef}>
         <primitive object={schoolScene} position={[0, -12, -16]} scale={1} />
-      </group> */}
+      </group>
 
 
 
      //ocean particle
-      <Sparkles
+      {/* <Sparkles
         count={300}
         scale={[20, 10, 20]}
         position={[0, -13, -16]}
         size={2}
         speed={0.3}
         color="#88ccff"
-      />
+      /> */}
 
           // ocean text
       <Text
