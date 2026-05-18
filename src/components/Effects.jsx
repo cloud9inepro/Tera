@@ -7,17 +7,17 @@ export default function Effects() {
   const bloomRef = useRef()
   const noiseRef = useRef()
 
-  useFrame(({ camera }) => {
-  if (!bloomRef.current) return
+  // useFrame(({ camera }) => {
+  // if (!bloomRef.current) return
 
-  const z = camera.position.z
-  const y = camera.position.y
+  // const z = camera.position.z
+  // const y = camera.position.y
 
-  if (y < -6) {
-    // underwater - check this FIRST
-    bloomRef.current.intensity = 1.5
-    if (noiseRef.current) noiseRef.current.opacity = 1
-   }// else if (z < -1) {
+  // if (y < -6) {
+  //   // underwater - check this FIRST
+  //   bloomRef.current.intensity = 1.5
+  //   if (noiseRef.current) noiseRef.current.opacity = 1
+  //  } else if (z < -1) {
   //   bloomRef.current.intensity = 0
   //   if (noiseRef.current) noiseRef.current.opacity = 0
   // } else {
@@ -27,7 +27,7 @@ export default function Effects() {
   //   )
   //   if (noiseRef.current) noiseRef.current.opacity = 0
   // }
-})
+// })
 
   return (
     <EffectComposer>

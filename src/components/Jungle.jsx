@@ -137,15 +137,15 @@ return (
     </div>
 
     <div className='text-white'>
-      <h1>BREATHTAKING NATURE</h1> 
-      <p>Discover stunning landscapes <br />
-      and vibrant ecosystems.</p>
+      <h1>UNIQUE CULTURES</h1> 
+      <p>Connect with local communities <br />
+      and rich traditions.</p>
     </div>
 
     <div className='text-white'>
-      <h1>BREATHTAKING NATURE</h1> 
-      <p>Discover stunning landscapes <br />
-      and vibrant ecosystems.</p>
+      <h1>ADVENTURE AWAITS</h1> 
+      <p>Embark on thrilling journeys <br />
+      and create unforgettable memories.</p>
     </div>
 
 
