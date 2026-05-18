@@ -254,9 +254,9 @@ useFrame((state) => {
       <group ref={koiRef} position={[0, -12, -30]}>
         <primitive object={koiScene} scale={1} />
       </group>
-      <group ref={schoolRef}>
+      {/* <group ref={schoolRef}>
         <primitive object={schoolScene} position={[0, -12, -16]} scale={1} />
-      </group>
+      </group> */}
 
 
 
