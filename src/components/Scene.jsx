@@ -15,6 +15,8 @@ import Underwater from './Underwater'
 import * as THREE from 'three'
 
 
+
+
 gsap.registerPlugin(ScrollTrigger);
 
 
@@ -26,8 +28,8 @@ const cameraProxy = { z: 6, y: 0 }
     const {camera, scene} = useThree()
 
     useFrame(()=> {
-      camera.position.z = cameraProxy.z
-      camera.position.y = cameraProxy.y
+      camera.position.z = cameraProxy.z 
+      camera.position.y = cameraProxy.y 
       camera.position.x = 0
       camera.rotation.set(0, 0, 0)  // lock all rotation
   camera.quaternion.set(0, 0, 0, 1) 
@@ -65,7 +67,7 @@ useEffect(()=>{
       trigger: scrollContainerRef.current, 
       start: 'top top',
       end: 'bottom bottom',
-      scrub: 1,
+      scrub: 0.5,
       // snap: {
       //   snapTO: 'labels',
       //   duration: 0.5,
@@ -88,12 +90,14 @@ useEffect(()=>{
     .addLabel('underwater_fish2')
     .to(cameraProxy, { z: -20, y: -11, duration: 1 })
     .addLabel('underwater_fish3')
-    .to(cameraProxy, { z: -25, y: -7, duration: 1 })
+    .to(cameraProxy, { z: -33, y: -8, duration: 1 })
     return()=>{
       tl.kill()
       ScrollTrigger.getAll().forEach(t => t.kill())
     }
 }, [])
+
+
 
   return (
     <div  ref={scrollContainerRef}>

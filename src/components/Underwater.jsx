@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect, useState, useMemo } from 'react'
 import { useFrame, extend } from '@react-three/fiber'
 import { useGLTF, useAnimations, useTexture } from '@react-three/drei'
 import { Sparkles } from '@react-three/drei'
@@ -10,6 +10,8 @@ import vertexShader from '../shaders/water.vert'
 import fragmentShader from '../shaders/water.frag'
 import { Caustics } from '@react-three/drei'
 import { Float, Sphere } from '@react-three/drei'
+import { SkeletonUtils } from 'three-stdlib'
+import { color } from 'three/tsl'
 
 const WaterMaterial = shaderMaterial(
   {
@@ -48,6 +50,7 @@ const props = useTexture({
 
   const {scene: rock} = useGLTF('/sea_rock.glb')
   const { scene: coral} = useGLTF('/coral.glb')
+  const { scene: coral1} = useGLTF('/coral_piece.glb')
 
   const { scene: alienScene, animations: alienAnims } = useGLTF('/alienFish.glb')
   const { scene: koiScene, animations: koiAnims } = useGLTF('/koiFish.glb')
@@ -61,6 +64,36 @@ const props = useTexture({
     Object.values(koiActions || {}).forEach(a => a?.play())
     Object.values(schoolActions || {}).forEach(a => a?.play())
   }, [alienActions, koiActions, schoolActions])
+
+
+// coral red
+  const corals = useMemo(() => {
+    const positions = [
+      { position: [-2, -14, -15.4], rotation: [0, 2.5, 0], scale: 0.17 },
+      { position: [0, -14, -12], rotation: [0, 1, 0], scale: 0.09, color: "#ffffff" } ,
+    ]
+    
+    return positions.map(p => ({
+      scene: SkeletonUtils.clone(coral),
+      ...p
+    }))
+  }, [coral])
+
+  // coral purple
+const coralPieces = useMemo(() => {
+    const positions = [
+      { position: [3, -14, -15], rotation: [0, 2.5, 0], scale: 0.9 },
+      { position: [-8, -14, -25], rotation: [0, 1, 0], scale: 1.3, } ,
+    ]
+    
+    return positions.map(p => ({
+      scene: SkeletonUtils.clone(coral1),
+      ...p
+    }))
+  }, [coral1])
+
+
+
 
 
   const [ active, setActive] = useState(false)
@@ -109,6 +142,15 @@ useFrame((state) => {
 })
 
 const fontSize = viewport.width < 5 ? 0.23 : viewport.width < 8 ? 0.28 : 0.40
+
+
+
+
+
+
+
+
+
   return (
     <group ref={groupRef}>
 
@@ -148,12 +190,30 @@ const fontSize = viewport.width < 5 ? 0.23 : viewport.width < 8 ? 0.28 : 0.40
     />
 
     //coral
-    <primitive
-      object={coral}
-      position={[0, -14, -12]}
-      scale={0.09}
-      rotation={[0, 0, 0]}
-    />
+    {corals.map((coral, i) => (
+      <primitive
+        key={i}
+        object={coral.scene}
+        position={coral.position}
+        rotation={coral.rotation}
+        scale={coral.scale}
+        color={coral.color}
+      />
+
+    ))}
+
+      //coral1 coral piece
+{coralPieces.map((coral1, i) => (
+      <primitive
+        key={i}
+        object={coral1.scene}
+        position={coral1.position}
+        rotation={coral1.rotation}
+        scale={coral1.scale}
+        color={coral1.color}
+      />
+
+    ))}
 
 
 
@@ -207,7 +267,7 @@ const fontSize = viewport.width < 5 ? 0.23 : viewport.width < 8 ? 0.28 : 0.40
        textAlign='center'
        >
           
-        Depth 3000ft
+        Depth 3,000ft
           
       </Text>
 
@@ -226,10 +286,10 @@ textAlign='center'
 </Text>
 
        
-
+{/* noise and bloom  */}
 {isUnderwater && (
       <EffectComposer>
-        <Bloom luminanceThreshold={0.01} luminanceSmoothing={0.9} intensity={1.5} />
+        <Bloom luminanceThreshold={0.1} luminanceSmoothing={0.9} intensity={1.5} />
         <Noise opacity={0.03} premultiplied />
       </EffectComposer>
     )}
